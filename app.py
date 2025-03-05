@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 from prophet.plot import plot_plotly, plot_components_plotly
 
 # Set the directory where models are stored
-MODEL_DIR = "./pkl_model"
+MODEL_DIR = "model_files"
 
 def load_model(product_id='Overall Forecast'):
     """Load the appropriate model based on `product_id`."""
@@ -44,7 +44,12 @@ with col2:  # Full-width area for charts and tables
     if model_data is None:
         st.error(f"Model for product_id={product_id} not found!")
     else:
-        st.success(f"Loaded model: {'Overall Model' if not product_id else f'Product {product_id} Model'}")
+        if product_id != 'Overall Forecast':
+            msg  = f'Sales prediction for product: {product_id} '
+        else:
+            msg  = 'Overall sales prediction'
+
+        st.success(msg)
 
         # Extract model and parameters
         loaded_model = model_data["best_model"]
