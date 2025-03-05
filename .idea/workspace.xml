@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43a53590-3d31-4729-8fea-074f47b25b76" name="Changes" comment="1. Removed unnecessary files&#10;2. Added label 'overall forecast'">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-    </list>
+    <list default="true" id="43a53590-3d31-4729-8fea-074f47b25b76" name="Changes" comment="label change for test private repo" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,7 +125,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741179015391</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="label change for test private repo">
+      <option name="closed" value="true" />
+      <created>1741180077590</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1741180077590</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -152,6 +157,7 @@
     <MESSAGE value="Changes in yhat formating" />
     <MESSAGE value="Changes in visualization" />
     <MESSAGE value="1. Removed unnecessary files&#10;2. Added label 'overall forecast'" />
-    <option name="LAST_COMMIT_MESSAGE" value="1. Removed unnecessary files&#10;2. Added label 'overall forecast'" />
+    <MESSAGE value="label change for test private repo" />
+    <option name="LAST_COMMIT_MESSAGE" value="label change for test private repo" />
   </component>
 </project>

@@ -8,7 +8,7 @@ from prophet.plot import plot_plotly, plot_components_plotly
 # Set the directory where models are stored
 MODEL_DIR = "./pkl_model"
 
-def load_model(product_id='Overall Forecast...'):
+def load_model(product_id='Overall Forecast'):
     """Load the appropriate model based on `product_id`."""
     if product_id != 'Overall Forecast':
         model_filename = f"product_{product_id}_model.pkl"
@@ -29,7 +29,7 @@ st.set_page_config(page_title="Demand Forecast Prediction App", layout="wide")
 # Sidebar for product selection
 with st.sidebar:
     st.title("⚙️ Settings")
-    product_ids = ["Overall Forecast...", "4A297", "4A306", "4A299", "4A183", "4A887"]
+    product_ids = ["Overall Forecast", "4A297", "4A306", "4A299", "4A183", "4A887"]
     product_id = st.selectbox("Select Product ID:", product_ids)
 
 # Main content layout (Left: Sidebar, Right: Full-width Display)
