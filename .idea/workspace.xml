@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="43a53590-3d31-4729-8fea-074f47b25b76" name="Changes" comment="Added file given by devang">
+    <list default="true" id="43a53590-3d31-4729-8fea-074f47b25b76" name="Changes" comment="Changes in visualization">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/streamlit_forecast.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../MLPoC\exportToHTML" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -116,16 +120,19 @@
       <option name="project" value="LOCAL" />
       <updated>1741175020740</updated>
     </task>
-    <task id="LOCAL-00006" summary="Added file given by devang">
-      <option name="closed" value="true" />
-      <created>1741177436629</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1741177436629</updated>
-    </task>
-    <option name="localTasksCounter" value="7" />
+    <option name="localTasksCounter" value="6" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
@@ -136,7 +143,6 @@
     <MESSAGE value="Added file for product" />
     <MESSAGE value="Changes in yhat formating" />
     <MESSAGE value="Changes in visualization" />
-    <MESSAGE value="Added file given by devang" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added file given by devang" />
+    <option name="LAST_COMMIT_MESSAGE" value="Changes in visualization" />
   </component>
 </project>
