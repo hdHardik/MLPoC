@@ -33,7 +33,9 @@ if st.sidebar.button("Predict Sales"):
 
         # Display Forecast Data
         st.subheader("Forecasted Sales Data")
-        st.write(pd.concat([forecast['ds'].tail(future_weeks),  forecast['yhat'].apply(lambda x: "{:.6e}".format(x)).tail(future_weeks)], axis=1))
+        # st.write(forecast[['ds', 'yhat']].tail(future_weeks))
+        st.write(pd.concat([forecast['ds'].tail(future_weeks),
+                            forecast['yhat'].apply(lambda x: "{:.6e}".format(x)).tail(future_weeks)], axis=1))
 
         # Plot Forecast
         st.subheader("Forecast Visualization")

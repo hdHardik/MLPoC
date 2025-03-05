@@ -36,14 +36,14 @@ if st.sidebar.button("Predict Sales"):
         model = load_model(MODEL_PATHS[product])
 
         # Create future dataframe
-        future = model.make_future_dataframe(periods=future_weeks, freq='W')
+        future = model.make_future_dataframe(periods=future_weeks, freq='W-MON')
         forecast = model.predict(future)
         st.success("Prediction Completed ✅")
 
         # Display Forecast Data
         st.subheader(f"Forecasted Sales Data for {product}")
-        st.write(pd.concat([forecast['ds'].tail(future_weeks),
-                            forecast['yhat'].apply(lambda x: "{:.6e}".format(x)).tail(future_weeks)], axis=1))
+        st.write(forecast[['ds', 'yhat']].tail(future_weeks))
+        # st.write(pd.concat([forecast['ds'].tail(future_weeks),forecast['yhat'].tail(future_weeks)], axis=1))
 
         # Plot Forecast
         st.subheader(f"Forecast Visualization for {product}")
