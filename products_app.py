@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 # Product Model Mapping
 MODEL_PATHS = {
@@ -46,12 +47,18 @@ if st.sidebar.button("Predict Sales"):
         # st.write(pd.concat([forecast['ds'].tail(future_weeks),forecast['yhat'].tail(future_weeks)], axis=1))
 
         # Plot Forecast
+        # st.subheader(f"Forecast Visualization for {product}")
+        # plt.figure(figsize=(10, 5))
+        # plt.plot(forecast['ds'], forecast['yhat'], label='Forecast')
+        # plt.xlabel("Date")
+        # plt.ylabel("Sales")
+        # plt.legend()
+        # st.pyplot(plt)
+
+        # Plot Forecast with Plotly
         st.subheader(f"Forecast Visualization for {product}")
-        plt.figure(figsize=(10, 5))
-        plt.plot(forecast['ds'], forecast['yhat'], label='Forecast')
-        plt.xlabel("Date")
-        plt.ylabel("Sales")
-        plt.legend()
-        st.pyplot(plt)
+        fig = px.line(forecast, x='ds', y='yhat', title=f"Forecast for {product}", markers=True,  labels={'ds': 'Date', 'yhat': 'Sales'})
+        fig.update_traces(marker=dict(size=8), hoverinfo='x+y')
+        st.plotly_chart(fig)
 
 st.write("Note: The model predicts future sales based on historical data trends.")

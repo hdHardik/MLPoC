@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import matplotlib.pyplot as plt
+import plotly.express as px
 
 # Load the Prophet model locally
 MODEL_PATH = "overall_model.pkl"
@@ -26,7 +27,7 @@ future_weeks = st.sidebar.number_input("Enter number of future weeks to predict"
 if st.sidebar.button("Predict Sales"):
     with st.spinner("Predicting..."):
         # Create future dataframe
-        future = model.make_future_dataframe(periods=future_weeks, freq='W')
+        future = model.make_future_dataframe(periods=future_weeks, freq='W-MON')
         forecast = model.predict(future)
         st.success("Prediction Completed ✅")
 
@@ -38,12 +39,18 @@ if st.sidebar.button("Predict Sales"):
                             forecast['yhat'].apply(lambda x: "{:.6e}".format(x)).tail(future_weeks)], axis=1))
 
         # Plot Forecast
-        st.subheader("Forecast Visualization")
-        plt.figure(figsize=(10, 5))
-        plt.plot(forecast['ds'], forecast['yhat'], label='Forecast')
-        plt.xlabel("Date")
-        plt.ylabel("Sales")
-        plt.legend()
-        st.pyplot(plt)
+        # st.subheader("Forecast Visualization")
+        # plt.figure(figsize=(10, 5))
+        # plt.plot(forecast['ds'], forecast['yhat'], label='Forecast')
+        # plt.xlabel("Date")
+        # plt.ylabel("Sales")
+        # plt.legend()
+        # st.pyplot(plt)
+
+        st.subheader(f"Forecast Visualization")
+        fig = px.line(forecast, x='ds', y='yhat', markers=True,
+                      labels={'ds': 'Date', 'yhat': 'Sales'})
+        fig.update_traces(marker=dict(size=6), hoverinfo='x+y')
+        st.plotly_chart(fig)
 
 st.write("Note: The model predicts future sales based on historical data trends.")
