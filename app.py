@@ -10,10 +10,8 @@ MODEL_DIR = "model_files"
 
 def load_model(product_id='Overall Forecast'):
     """Load the appropriate model based on `product_id`."""
-    if product_id != 'Overall Forecast':
-        model_filename = f"product_{product_id}_model.pkl"
-    else:
-        model_filename = "overall_model.pkl"
+
+    model_filename = f"product_{product_id}_model.pkl"
 
     model_path = os.path.join(MODEL_DIR, model_filename)
 
@@ -29,7 +27,7 @@ st.set_page_config(page_title="Demand Forecast Prediction App", layout="wide")
 # Sidebar for product selection
 with st.sidebar:
     st.title("⚙️ Settings")
-    product_ids = ["Overall Forecast", "4A297", "4A306", "4A299", "4A183", "4A887"]
+    product_ids = ["4A297", "4A306", "4A299", "4A183", "4A887"]
     product_id = st.selectbox("Select Product ID:", product_ids)
 
 # Main content layout (Left: Sidebar, Right: Full-width Display)
@@ -39,15 +37,12 @@ with col2:  # Full-width area for charts and tables
     st.title("Demand Forecast Prediction App")
 
     # Load the model
-    model_data = load_model(product_id if product_id else None)
+    model_data = load_model(product_id)
 
     if model_data is None:
         st.error(f"Model for product_id={product_id} not found!")
     else:
-        if product_id != 'Overall Forecast':
-            msg  = f'Sales prediction for product: {product_id} '
-        else:
-            msg  = 'Overall sales prediction'
+        msg  = f'Sales prediction for product: {product_id} '
 
         st.success(msg)
 
