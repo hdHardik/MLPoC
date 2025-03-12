@@ -30,7 +30,11 @@ with st.sidebar:
     product_id = st.selectbox("Select Product ID:", product_ids)
 
 # Main content layout (Left: Sidebar, Right: Full-width Display)
-col1, col2 = st.columns([1, 4])  # Allocating 20% width to sidebar, 80% to main content
+col1, _ = st.columns([1, 1])  # Allocating 20% width to sidebar, 80% to main content
+
+st.write("")  # Forces a new line
+
+col2 = st.container()
 
 with col2:  # Full-width area for charts and tables
     st.title("Demand Forecast Prediction App")
@@ -53,45 +57,13 @@ with col2:  # Full-width area for charts and tables
         # User input for forecasting periods (for the original model forecast)
         user_periods = st.sidebar.slider("Select Forecast Periods", min_value=1, max_value=periods, value=periods)
 
-        st.subheader("Demand Forecast Plot (95/5 Train-Test)")
-        train_size = int(len(actual_df) * 0.95)
-        train_df = actual_df.iloc[:train_size][["ds", "y"]]
-        test_df = actual_df.iloc[train_size:][["ds", "y"]]
-        
-        # Initialize and train a new Prophet model on the training set with stored parameters
-        model_95_5 = Prophet(
-            changepoint_prior_scale=params['changepoint_prior_scale'],
-            seasonality_prior_scale=params['seasonality_prior_scale'],
-            holidays_prior_scale=params['holidays_prior_scale'],
-            seasonality_mode=params['seasonality_mode']
-        )
-        model_95_5.fit(train_df)
-        
-        # Create a future dataframe covering the test period
-        future_95_5 = model_95_5.make_future_dataframe(periods=len(test_df), freq=freq)
-        forecast_95_5 = model_95_5.predict(future_95_5)
-        
-        # Plot the forecast using Prophet's Plotly function
-        fig_95_5 = plot_plotly(model_95_5, forecast_95_5)
-        
-        # Overlay the entire actual data as markers
-        fig_95_5.add_trace(go.Scatter(
-            x=actual_df['ds'], 
-            y=actual_df['y'], 
-            mode='markers',
-            name='Actual Data',
-            marker=dict(color='black', size=4)
-        ))
-        
-        st.plotly_chart(fig_95_5, use_container_width=True)
-        # ---------------------------------------------------------------------
 
         # Generate future dataframe for the original loaded model forecast
         future = loaded_model.make_future_dataframe(periods=user_periods, freq=freq)
         forecast = loaded_model.predict(future)
 
         # Plot the forecast similar to Facebook Prophet's built-in visualization
-        st.subheader("Demand Forecast Plot")
+        st.subheader("Demand Forecast - Visualization")
         fig1 = plot_plotly(loaded_model, forecast)
         st.plotly_chart(fig1, use_container_width=True)
 
@@ -101,7 +73,56 @@ with col2:  # Full-width area for charts and tables
         st.plotly_chart(fig2, use_container_width=True)
 
         # Display forecast table
-        st.subheader("Demand Forecasted Predictions")
+        st.subheader("Demand Forecasted Predictions - Data Table")
+        # Select the last 'user_periods' records and rename columns
+        predicted_df = (forecast[["ds", "yhat"]].tail(user_periods).rename(columns={"ds": "Date", "yhat": "Predicted"}).astype({"Date": str, "Predicted": int}))
+
+        # Display the table
+        st.dataframe(predicted_df, height=400, width=400)
+
+        st.subheader("Actual vs. Predicted Demand - Visualization")
+        train_size = int(len(actual_df) * 0.95)
+        train_df = actual_df.iloc[:train_size][["ds", "y"]]
+        test_df = actual_df.iloc[train_size:][["ds", "y"]]
+
+        # Initialize and train a new Prophet model on the training set with stored parameters
+        model_95_5 = Prophet(
+            changepoint_prior_scale=params['changepoint_prior_scale'],
+            seasonality_prior_scale=params['seasonality_prior_scale'],
+            holidays_prior_scale=params['holidays_prior_scale'],
+            seasonality_mode=params['seasonality_mode']
+        )
+        model_95_5.fit(train_df)
+
+        # Create a future dataframe covering the test period
+        future_95_5 = model_95_5.make_future_dataframe(periods=len(test_df), freq=freq)
+        forecast_95_5 = model_95_5.predict(future_95_5)
+
+        # Plot the forecast using Prophet's Plotly function
+        fig_95_5 = plot_plotly(model_95_5, forecast_95_5)
+
+        # Overlay the entire actual data as markers
+        fig_95_5.add_trace(go.Scatter(
+            x=actual_df['ds'],
+            y=actual_df['y'],
+            mode='markers',
+            name='Actual Data',
+            marker=dict(color='black', size=4)
+        ))
+
+        st.plotly_chart(fig_95_5, use_container_width=True)
+        # ---------------------------------------------------------------------
+
+        # Display forecast table
+        st.subheader("Actual vs. Predicted Demand - Data Table")
         # Select the last 'user_periods' records and rename 'yhat' to 'y'
-        predicted_df = forecast[["ds", "yhat"]].tail(user_periods).rename(columns={"yhat": "y"}).astype({"ds": str, "y": int})
-        st.dataframe(predicted_df, height=400)
+        predicted_95_5_df = forecast_95_5[["ds", "yhat"]].tail(len(test_df))
+
+        # Merge both DataFrames on 'ds'
+        combined_df = pd.merge(predicted_95_5_df, test_df, on="ds", how="inner")
+
+        # Rename columns
+        combined_df = combined_df.rename(columns={"ds": "Date", "yhat": "Predicted", "y": "Actual"}).astype({"Date": str, "Predicted": int})
+
+        # Display the DataFrame
+        st.dataframe(combined_df, height=400, width=400)
