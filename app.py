@@ -64,13 +64,36 @@ with col2:  # Full-width area for charts and tables
 
         # Plot the forecast similar to Facebook Prophet's built-in visualization
         st.subheader("Demand Forecast - Visualization")
+
+        # Add explanation text for the chart
+        st.markdown("""
+               - **─  Prediction Line**: This is the model's predicted demand over time.
+               - **🔵 Actual Data Points**: These markers represent the real demand values from the test dataset.
+               - **Prediction Confidence Interval (Shaded Area)**: 
+                   - The shaded region shows the **95% confidence interval**.
+                   - The model is **95% confident** that the true demand will fall within this range.
+               """)
+
         fig1 = plot_plotly(loaded_model, forecast)
         st.plotly_chart(fig1, use_container_width=True)
 
+
         # Show trend, seasonality, and other components from Prophet
         st.subheader("Demand Forecast Components (Trend, Seasonality)")
+        # Add explanation text for components chart
+        st.markdown("""
+              - **📈 Trend**: Shows the overall direction of demand over time.
+              - **📆 Weekly & Yearly Seasonality**:
+                  - Peaks and dips in demand **based on weekly & yearly patterns**.
+                  - Useful for identifying high-sales and low-sales periods.
+              """)
+
         fig2 = plot_components_plotly(loaded_model, forecast)
         st.plotly_chart(fig2, use_container_width=True)
+
+
+
+
 
         # Display forecast table
         st.subheader("Demand Forecasted Predictions - Data Table")
@@ -126,3 +149,33 @@ with col2:  # Full-width area for charts and tables
 
         # Display the DataFrame
         st.dataframe(combined_df, height=400, width=400)
+
+
+
+        # # Display forecast table
+        # st.subheader("Actual vs. Predicted Demand - Data Table")
+        #
+        # # Select the last 'user_periods' records and include 'yhat_lower' and 'yhat_upper'
+        # predicted_95_5_df = forecast_95_5[["ds", "yhat", "yhat_lower", "yhat_upper"]].tail(len(test_df))
+        #
+        # # Merge both DataFrames on 'ds'
+        # combined_df = pd.merge(predicted_95_5_df, test_df, on="ds", how="inner")
+        #
+        # # Rename columns
+        # combined_df = combined_df.rename(columns={
+        #     "ds": "Date",
+        #     "yhat": "Predicted",
+        #     "y": "Actual",
+        #     "yhat_lower": "Lower Trend",
+        #     "yhat_upper": "Upper Trend"
+        # })
+        #
+        # # Rearrange columns to show "Predicted Lower Bound" and "Predicted Upper Bound" at the end
+        # combined_df = combined_df[["Date", "Predicted", "Actual", "Lower Trend", "Upper Trend"]]
+        #
+        # # Convert data types
+        # combined_df = combined_df.astype(
+        #     {"Date": str, "Predicted": int, "Actual": int, "Lower Trend": int, "Upper Trend": int})
+        #
+        # # Display the DataFrame
+        # st.dataframe(combined_df, height=400, width=700)
